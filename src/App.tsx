@@ -3,7 +3,7 @@ import './style.css';
 import Grid from './grid';
 import dataList from './data.json';
 
-function control(today: Date, limit: number) {}
+function control(today: Date, limit: number) { }
 
 export default function App() {
   let sourceProp = dataList;

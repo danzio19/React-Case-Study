@@ -8,7 +8,11 @@ h1, p {
 }
 
 .th,
-.tc {
+.td {
   border: 1px solid black;
   padding: 8px;
+}
+
+.red-background {
+  background-color: red;
 }

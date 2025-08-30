@@ -24,9 +24,9 @@ const Grid: React.FC<GridProps> = ({ source }) => {
             <tbody>
                 {source.map((candidate, index) => (
                     <tr key={index} className={candidate.isBackgroundColorRed ? 'red-background' : ''}>
-                        <td className="tc">{candidate.name}</td>
-                        <td className="tc">{candidate.mailReceivedDate}</td>
-                        <td className="tc">{candidate.solutionSentDate}</td>
+                        <td className="td">{candidate.name}</td>
+                        <td className="td">{candidate.mailReceivedDate}</td>
+                        <td className="td">{candidate.solutionSentDate}</td>
                     </tr>
                 ))}
             </tbody>

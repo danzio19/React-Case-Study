@@ -10,7 +10,7 @@ export default function App() {
   return (
     <div>
       <h1>Dgpays Case Study </h1>
-      {/* <Grid source={sourceProp} />  */}
+      <Grid source={sourceProp} />
     </div>
   );
 }

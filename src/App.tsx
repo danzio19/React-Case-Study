@@ -2,14 +2,16 @@ import * as React from 'react';
 import './style.css';
 import Grid from './grid';
 import dataList from './data.json';
+import TodayLimitForm from './TodayLimitForm';
 
 function control(today: Date, limit: number) {
-  let wrongCount = 0;
+
+  let wrongRows: number[] = [];
 
   // get all rows
   const rows = document.querySelectorAll("table tbody tr");
 
-  rows.forEach((row) => {
+  rows.forEach((row, index) => {
     const cells = row.querySelectorAll("td");
     const mailReceivedDateStr = cells[1].textContent || "";
     const solutionSentDateStr = cells[2].textContent || "";
@@ -33,11 +35,14 @@ function control(today: Date, limit: number) {
     console.log("isRed:", isRed);
 
     if (shouldBeRed !== isRed) {
-      wrongCount++;
+
+      wrongRows.push(index + 1);
     }
   });
 
-  return wrongCount;
+  // returning both is redundant but kept count as it is specified in the description
+  return { wrongCount: wrongRows.length, wrongRows };
+
 }
 
 // helper function to calculate difference of dates in days
@@ -49,18 +54,27 @@ function diffInDays(d1: Date, d2: Date): number {
 export default function App() {
 
   let sourceProp = dataList;
+  const [wrongCount, setWrongCount] = React.useState<number | null>(null);
+  const [wrongRows, setWrongRows] = React.useState<number[]>([]);
 
-  React.useEffect(() => {
-    const today = new Date();
-    const limit = 5;
-    const wrongCount = control(today, limit);
-    console.log(`Number of wrong background colors: ${wrongCount}`);
-  }, []);
+  const handleControl = (today: Date, limit: number) => {
+    const { wrongCount, wrongRows } = control(today, limit);
+    setWrongCount(wrongCount);
+    setWrongRows(wrongRows);
+  };
 
   return (
     <div>
-      <h1>Dgpays Case Study </h1>
+      <h1>Dgpays Case Study</h1>
+      <TodayLimitForm onSubmit={handleControl} />
       <Grid source={sourceProp} />
+      {wrongCount !== null && (
+        <p style={{ marginTop: "1rem" }}>
+          Wrongly colored rows: <strong>{wrongCount}</strong> <br />
+          {wrongRows.length > 0 ? wrongRows.join(", ") : "None"}
+        </p>
+      )}
     </div>
+
   );
 }
